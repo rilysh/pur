@@ -1,0 +1,119 @@
+#+title: _Pur_
+#+options: author:nil toc:nil date:nil created:nil timestamp:nil num:nil
+
+** Pur
+A script to retrieve information about packages from AUR.
+
+** Usage
+To get the general command information, run =pur --help=.
+
+*** Markers
+#+begin_src text
+--packages, --versions, --votes, --popularities, --descriptions,
+--maintainers, --last-updates
+#+end_src
+The list of the above commands is called markers. They're used to specify which type of information we're looking for.
+
+#+begin_src text
+--packages request a list of package names based on the query
+--versions request a list of package versions based on the query
+--votes request a list of package votes based on the query
+--popularities request a list of package popularity based on the query
+--descriptions request a list of package descriptions based on the query
+--maintainers request a list of package maintainers based on the query
+--last-updates request a list of package last updates based on the query
+#+end_src
+
+*** Parameters
+#+begin_src text
+--page, --query, --query-by, --outdated, --sort-by,
+--sort-order, --per-page
+#+end_src
+The list of the above commands is called the parameters of markers. They're used to specify several parameters that can be used.
+For AUR search =--query= and =--query-by= is mandatory to specify. For AUR suggestion, only =--query= parameter is used
+and all others are being ignored.
+
+#+begin_src text
+--page specify the page number, you'd like to retrieve the data
+--query a query of an AUR package
+--query-by set the search type
+--outdated set the search, out-of-date, active, or both type of packages
+--sort-by set on what basis the package list would be sorted
+--sort-order set the order of the sort
+--per-page set how many results, you'd like per page
+#+end_src
+
+Many of these parameters are self-explanatory. However, some take special argument(s),
+these are =--query-by=, =--outdated=, =--sort-by=, and =--sort-order=.
+
+=--query-by= takes
+| Type                      | Argument |
+|---------------------------+----------|
+| Name, Description         | nd       |
+|---------------------------+----------|
+| Name Only                 | n        |
+|---------------------------+----------|
+| Package Base              | b        |
+|---------------------------+----------|
+| Exact Name                | N        |
+|---------------------------+----------|
+| Exact Package Base        | B        |
+|---------------------------+----------|
+| Keywords                  | k        |
+|---------------------------+----------|
+| Maintainer                | m        |
+|---------------------------+----------|
+| Co-maintainer             | c        |
+|---------------------------+----------|
+| Maintainer, Co-maintainer | M        |
+|---------------------------+----------|
+| Submitter                 | s        |
+
+=--outdated= takes
+| Type        | Argument |
+|-------------+----------|
+| All         | (empty)  |
+|-------------+----------|
+| Flagged     | on       |
+|-------------+----------|
+| Not Flagged | off      |
+
+=--sort-by= takes
+| Type          | Argument |
+|---------------+----------|
+| Name          | n        |
+|---------------+----------|
+| Votes         | v        |
+|---------------+----------|
+| Popularity    | p        |
+|---------------+----------|
+| Voted         | w        |
+|---------------+----------|
+| Notify        | o        |
+|---------------+----------|
+| Maintainer    | m        |
+|---------------+----------|
+| Last Modified | l        |
+
+=--sort-order= takes
+| Type       | Argument |
+|------------+----------|
+| Ascending  | a        |
+|------------+----------|
+| Descending | d        |
+
+*** Examples
+List all matches (name) with the query, =zsh=.
+#+begin_src bash
+  python3 pur.py --packages --query zsh --query-by nd --per-page 20
+#+end_src
+
+Query an exact match
+#+begin_src bash
+  python3 pur.py --packages --query oh-my-zsh-git --query-by N --per-page 20
+#+end_src
+
+Dump everything as JSON output
+#+begin_src bash
+  python3 pur.py --query zsh --query-by nd --dump-json
+#+end_src
